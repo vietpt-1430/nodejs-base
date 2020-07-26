@@ -5,9 +5,18 @@ function UserController()
     {
         res.send("find")
     }
-    this.add = function (req, res)
+    
+    this.signup = function (res, req)
     {
-        res.send("add")
+    	var user = new User();
+ 
+	    user.username = req.body.username;
+	    user.email = req.body.email;
+	    user.setPassword(req.body.password);
+	  
+	  	user.save().then(function(){
+	    	return res.json({user: user.toAuthJSON()});
+	  	}).catch(next);
     }
 
 
