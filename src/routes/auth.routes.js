@@ -1,10 +1,11 @@
 let router = require("express").Router();
-let authMiddleware = require("../middleware/auth.middleware");
-let AuthController = require("../controllers/auth.controller")
+const AuthController = require("../controllers/auth.controller")
+const auth = require('../middleware/auth.middleware')
 //public
 router.post("/login", AuthController.login)
 
 //private
-router.post("/logout", authMiddleware, AuthController.logout)
+router.post("/logout", auth, AuthController.logout)
+router.post("/logout-all", auth, AuthController.logoutAll)
 
 module.exports = router;

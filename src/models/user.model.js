@@ -1,9 +1,8 @@
-var mongoose = require("mongoose");
-var bcrypt = require("bcryptjs");
-var jwt = require("jsonwebtoken");
-var secret = 'secrect password'
- 
-var UserSchema = new mongoose.Schema(
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+const UserSchema = new mongoose.Schema(
 {
   username: {
     type: String,
@@ -26,7 +25,8 @@ var UserSchema = new mongoose.Schema(
   },
   tokens: [{
       token: {
-          type: String
+          type: String,
+          required: true
       }
   }]
 },
@@ -34,13 +34,12 @@ var UserSchema = new mongoose.Schema(
 );
 
 UserSchema.pre('save', async function (next) {
-    // Hash the password before saving the user model
     const user = this
     if (user.isModified('password')) {
         user.password = await bcrypt.hash(user.password, 8)
     }
     next()
-});
+})
 
 UserSchema.methods.toAuthJSON = function(){
   return {
@@ -48,7 +47,7 @@ UserSchema.methods.toAuthJSON = function(){
     email: this.email,
     token: this.generateAuthToken()
   };
-};
+}
 
 UserSchema.methods.generateAuthToken = function() {
     const token = jwt.sign(
@@ -62,6 +61,22 @@ UserSchema.methods.generateAuthToken = function() {
     this.save()
 
     return token
+}
+
+UserSchema.statics.findByCredentials = async (email, password) => {
+    const user = await User.findOne({ email })
+
+    if (!user) {
+        throw new Error({ error: 'Invalid login credentials' })
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, user.password)
+
+    if (!isPasswordMatch) {
+        throw new Error({ error: 'Invalid login credentials' })
+    }
+
+    return user
 }
  
 const User = mongoose.model('User', UserSchema);

@@ -2,13 +2,11 @@ const User = require('../models/user.model')
 
 function UserController()
 {
-    this.find = function (req, res)
-    {
-        res.send("find")
+    this.find = async(req, res) => {
+        return res.send(req.user)
     }
     
-    this.signup = function (req, res)
-    {
+    this.signup = (req, res) => {
         try {
             let user = new User();
 

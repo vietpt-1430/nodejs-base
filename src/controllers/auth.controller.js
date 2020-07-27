@@ -1,25 +1,44 @@
-let passport = require('passport')
+const User = require('../models/user.model')
 
 function AuthController()
 {
-    this.login = function (res, req)
-    {
-		passport.authenticate('local', {session: false}, function(err, user, info) {
-		    if(err){ return next(err); }
-		 
-		    if(user){
-		      user.token = user.generateJWT();
-		      return res.json({user: user.toAuthJSON()});
-		    } else {
-		      return res.status(422).json(info);
-		    }
-	  	})(req, res, next);
+    this.login = async(req, res) => {
+		try {
+			const { email, password } = req.body
+			const user = await User.findByCredentials(email, password)
+
+			if (!user) {
+				return res.status(401).send({error: 'Login failed! Check authentication credentials'})
+			}
+
+			res.send({user: user.toAuthJSON()});
+		} catch (error) {
+			res.status(400).send({error: 'Login failed'})
+		}
     }
 
-    this.logout = function (res, req)
-    {
-        
+    this.logout = async(req, res) => {
+		try {
+			req.user.tokens = req.user.tokens.filter((token) => {
+				return token.token != req.token
+			})
+
+			await req.user.save()
+			res.send({'message': 'Logout Done!'})
+		} catch (error) {
+			res.status(500).send(error)
+		}
     }
+
+	this.logoutAll = async(req, res) => {
+		try {
+			req.user.tokens.splice(0, req.user.tokens.length)
+			await req.user.save()
+			res.send()
+		} catch (error) {
+			res.status(500).send(error)
+		}
+	}
     
     return this;
 }

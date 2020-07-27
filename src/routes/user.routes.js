@@ -1,7 +1,8 @@
 let router = require("express").Router();
 let UserController = require("../controllers/user.controller")
+const auth = require('../middleware/auth.middleware')
 
-router.get("/", UserController.find)
-router.post("/signup", UserController.signup)
+router.post("/user/signup", UserController.signup)
+router.get('/user/me', auth, UserController.find)
 
 module.exports = router;
