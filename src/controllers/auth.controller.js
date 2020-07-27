@@ -1,11 +1,7 @@
+let passport = require('passport')
 
 function AuthController()
 {
-    this.auth = function (res, req)
-    {
-        
-    }
-
     this.login = function (res, req)
     {
 		passport.authenticate('local', {session: false}, function(err, user, info) {
