@@ -1,12 +1,15 @@
 # node-express-base-project
-Project ready to go on node Js with Express Framework and another util libraries.
+Project ready to go on node Js with Express Framework.
 
 
 ## Installing
+npm install
 
-npm install .
+## Run server
 npm start
 
-then open http://localhost:3000/
+## Auto rebuild 
+npm run dev
 
-Ready! Keep Codding !
+
+then open `http://localhost:3000/`
