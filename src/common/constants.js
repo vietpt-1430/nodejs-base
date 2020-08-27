@@ -6,5 +6,5 @@ module.exports = {
   |--------------------------------------------------------------------------
   | Available Drivers: "single", "daily", "console"
   */
-  LOG_CHANNEL: process.env.LOG_DRIVER ? process.env.LOG_DRIVER : 'single'
+  LOG_CHANNEL: process.env.LOG_CHANNEL ? process.env.LOG_CHANNEL : 'single'
 };
