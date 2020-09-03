@@ -38,7 +38,7 @@ function getLogOption() {
 }
 
 function writeLog(fileName, messsage, logText, useConsole) {
-  let outputMessage = '[' + moment().format('Y-MM-DD H:m:s') + '] LOG ' +  logText + ' : ';
+  let outputMessage = '[' + moment().format('Y-MM-DD HH:mm:ss') + '] LOG ' +  logText + ' : ';
   if (messsage instanceof Error) {
     outputMessage += messsage.stack;
   } else {

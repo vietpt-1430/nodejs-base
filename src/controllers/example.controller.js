@@ -1,4 +1,5 @@
-const log = require('../common/log'); 
+const log = require('../common/log');
+const ExpresssLogProxy = require('../common/log.proxy');
 
 function ExampleController()
 {
@@ -10,15 +11,15 @@ function ExampleController()
       };
       
       res.send({user: user.toAuthJSON()});
-      //res.send({user: user})
     } catch (error) {
       log.error(error);
-
       res.status(400).send({'message': 'Log Example Fail !'});
     }
   };
-    
-  return this;
+
+  this.logDefault = async(req, res, next) => {
+    throw Error("Hello Logs :D")
+  };
 }
 
-module.exports = ExampleController();
+module.exports = ExpresssLogProxy(new ExampleController()); //add log proxy to handle log
