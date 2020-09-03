@@ -22,7 +22,6 @@ function ExampleController()
     } catch (error) {
       // Notice that when not calling “next” in an error-handling function, you are responsible for writing (and ending) the response. 
       // Otherwise those requests will “hang” and will not be eligible for garbage collection.
-      
       next(error, req, res);
     }
   };

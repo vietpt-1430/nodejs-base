@@ -4,9 +4,7 @@ const app = express();
 const route = require('./routes/index');
 const bodyParser = require('body-parser');
 const handleError = require('./common/error');
-
 require('./database/mongoose');
-
 
 app.use( bodyParser.json() );
 app.use( express.json() );
