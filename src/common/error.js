@@ -5,6 +5,8 @@ const handleError = (err, req, res) => {
   
   //TODO : depend on your web (JSON or web normal), you can show ideal error page .
   const statusCode = 500;
+  const message = err.message;
+
   res.status(statusCode).json({
     status: "error",
     statusCode,

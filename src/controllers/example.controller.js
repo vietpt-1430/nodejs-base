@@ -1,4 +1,5 @@
 const log = require('../common/log');
+const ExpresssLogProxy = require('../common/log.proxy');
 
 function ExampleController()
 {
@@ -17,16 +18,8 @@ function ExampleController()
   };
 
   this.logDefault = async(req, res, next) => {
-    try {
-      res.send({user: user.toAuthJSON()});
-    } catch (error) {
-      // Notice that when not calling “next” in an error-handling function, you are responsible for writing (and ending) the response. 
-      // Otherwise those requests will “hang” and will not be eligible for garbage collection.
-      next(error, req, res);
-    }
+    throw Error("Hello Logs :D")
   };
-    
-  return this;
 }
 
-module.exports = ExampleController();
+module.exports = ExpresssLogProxy(new ExampleController()); //add log proxy to handle log
