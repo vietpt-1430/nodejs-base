@@ -21,7 +21,7 @@
     "nodemon": "^2.0.4",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
-    "validator": "^9.1.1"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "env-cmd": "^10.1.0",
